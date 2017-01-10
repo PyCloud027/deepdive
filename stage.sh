@@ -155,7 +155,7 @@ stage util/draw_calibration_plot                                  util/
 stage util/calibration.py                                         util/
 stage util/calibration.plg                                        util/
 
-if [[ -d .build/submodule/util/mindbender/@prefix@/ ]]; then
+if [[ -z ${NO_MINDBENDER:-} ]]; then
 stage .build/submodule/util/mindbender/@prefix@/                  mindbender/
 stage util/mindbender-wrapper.sh                                  bin/mindbender
 fi
