@@ -196,11 +196,7 @@ if .deepdive_.execution.processes | has("process/grounding/combine_factorgraph")
             for pid in $DEEPDIVE_FACTORGRAPH_SHARDS; do
                 cd \"$DEEPDIVE_RESULTS_DIR\"/$pid
                 cat inference_result.out.text |
-                # restoring shard ID to the vids
-                jq -R -r --argjson SHARD_BASE $(($pid << 48)) '
-                    split(\" \") |
-                    [ (.[0] | tonumber + $SHARD_BASE | tostring)
-                    , .[1:][] ] | join(\"\\t\")' |
+                pid=$pid deepdive env restore_partitioned_vids |
                 DEEPDIVE_LOAD_FORMAT=tsv \\
                 deepdive load \(deepdiveInferenceResultVariablesTable | @sh) /dev/stdin
             done
